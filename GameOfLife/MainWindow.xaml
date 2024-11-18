@@ -4,13 +4,14 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GameOfLife"
+        xmlns:controls="clr-namespace:Microsoft.UI.Xaml.Controls;assembly=Uno.UI"
         mc:Ignorable="d"
         Title="MainWindow" Height="630" Width="1400"
-        Background="darkgreen">
+        Background="darkred">
     <Window.Resources>
     </Window.Resources>
     <Grid Height="833" VerticalAlignment="Center">
-        
+
         <Canvas Name="MyCanvas" Width="500" Height="500" Background="DarkGray"/>
         <Label x:Name="Label" Content="PG Life" Margin="0,126,0,0" VerticalAlignment="Top" Width="84" RenderTransformOrigin="0.5,0.5" FontFamily="Comic Sans MS" FontSize="22" HorizontalAlignment="Center"/>
         <TextBox x:Name="TextSizeX" HorizontalAlignment="Left" Margin="10,167,0,0" TextWrapping="Wrap" Text="100" VerticalAlignment="Top" Width="120"  RenderTransformOrigin="0.375,1.004"/>
@@ -40,9 +41,13 @@
         <TextBox x:Name="TextZoom" Text="1" HorizontalAlignment="Left" Margin="10,319,0,0" VerticalAlignment="Top" />
         <!-- <Button x:Name="Button1X" Content="Zoom 1x" HorizontalAlignment="Left" Margin="10,319,0,0" VerticalAlignment="Top"/> -->
         <Button x:Name="ButtonZoom" Content="Zoom" HorizontalAlignment="Left" Margin="86,319,0,0" VerticalAlignment="Top" Click="ButtonZoom_Click"/>
-        <Button x:Name="ButtonMode" Content="Change mode" HorizontalAlignment="Left" Margin="10,364,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.555,0.828"/>
+        <Button x:Name="ButtonMode" Content="Change mode" HorizontalAlignment="Left" Margin="10,364,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.555,0.828" Click="ButtonMode_Click"/>
         <Label x:Name="label" Content="Size Y" HorizontalAlignment="Left" Margin="156,141,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.29,0.521"/>
         <Label x:Name="label_Copy" Content="Size X" HorizontalAlignment="Left" Margin="10,141,0,0" VerticalAlignment="Top" RenderTransformOrigin="-3.053,0.367"/>
         <Label x:Name="label1" Content="Delay in ms" HorizontalAlignment="Left" Margin="159,235,0,0" VerticalAlignment="Top"/>
+        <Button x:Name="ButtonColor" Content="Color" HorizontalAlignment="Left" Margin="196,364,0,0" VerticalAlignment="Top" Click="ButtonColor_Click"/>
+        <Button x:Name="ButtonExport" Content="Export" HorizontalAlignment="Left" Margin="10,425,0,0" VerticalAlignment="Top" Click="ButtonExport_Click"/>
+        <Button x:Name="ButtonImport" Content="Import" HorizontalAlignment="Left" Margin="192,425,0,0" VerticalAlignment="Top" Click="ButtonImport_Click"/>
     </Grid>
+
 </Window>

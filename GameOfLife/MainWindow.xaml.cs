@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.IO;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -11,6 +12,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using GameOfLife.ViewModel;
 using Microsoft.UI.Xaml.Controls;
+using Newtonsoft.Json;
 using Canvas = System.Windows.Controls.Canvas;
 
 namespace GameOfLife
@@ -27,6 +29,8 @@ namespace GameOfLife
 		private Logic.Logic logic;
 		public int scale;
 		private bool isCircle = false;
+		private Brush color = new SolidColorBrush(Colors.IndianRed);
+		private int colorIndex = 0;
 		public MainWindow()
 		{
 			InitializeComponent();
@@ -45,7 +49,9 @@ namespace GameOfLife
 			return () =>
 			{
 				MyCanvas.Children.Clear();
-				double cellSize = MyCanvas.Height / sizeX * scale;
+				double cellSizeHeight = MyCanvas.Height / sizeY * scale;
+				double cellSizeWidth = MyCanvas.Width / sizeX * scale;
+				color.Freeze();
 				for (int i = 0; i < sizeY / scale; i++)
 				{
 					for (int j = 0; j < sizeX / scale; j++)
@@ -57,34 +63,29 @@ namespace GameOfLife
 							{
 								cell = new Ellipse
 								{
-									Width = cellSize,
-									Height = cellSize,
-									Fill = Brushes.MidnightBlue
+									Width = cellSizeWidth,
+									Height = cellSizeHeight,
+									Fill = color
 								};
 							}
 							else
 							{
 								cell = new Rectangle
 								{
-									Width = cellSize,
-									Height = cellSize,
-									Fill = Brushes.MidnightBlue
+									Width = cellSizeWidth,
+									Height = cellSizeHeight,
+									Fill = color
 								};
 							}
 
-							Canvas.SetTop(cell, cellSize * i);
-							Canvas.SetLeft(cell, cellSize * j);
+							Canvas.SetTop(cell, cellSizeHeight * i);
+							Canvas.SetLeft(cell, cellSizeWidth * j);
 							MyCanvas.Children.Add(cell);
 							
 						}
 					}
 				}
 			};
-		}
-
-		private void textBox__Leave(object sender, System.Windows.Controls.TextChangedEventArgs e)
-		{
-
 		}
 
 		private void buttonInit_Click(object sender, RoutedEventArgs e)
@@ -99,7 +100,7 @@ namespace GameOfLife
 			{
 				for (int j = 0; j < sizeX; j++)
 				{
-					cells[j, i] = false;
+					cells[i, j] = false;
 				}
 			}
 			MyCanvas.Children.Clear();
@@ -113,7 +114,7 @@ namespace GameOfLife
 		{
 			sizeX = Convert.ToInt32(TextSizeX.Text);
 			sizeY = Convert.ToInt32(TextSizeY.Text);
-			cells = new bool [sizeX, sizeY];
+			cells = new bool [sizeY, sizeX];
 			emptyState();
 			
 			// logic.Dispose();
@@ -140,6 +141,69 @@ namespace GameOfLife
 		{
 			scale = Convert.ToInt32(TextZoom.Text);
 
+		}
+
+		private void ButtonMode_Click(object sender, RoutedEventArgs e)
+		{
+			isCircle = !isCircle;
+		}
+
+		private void ButtonColor_Click(object sender, RoutedEventArgs e)
+		{
+			colorIndex++;
+			if (colorIndex > 2)
+				colorIndex = 0;
+			switch (colorIndex)
+			{
+				case 0:
+					color = new SolidColorBrush(Colors.IndianRed);
+					break;
+				case 1:
+					color = new SolidColorBrush(Colors.GreenYellow);
+					break;
+				case 2:
+					color = new SolidColorBrush(Colors.MediumAquamarine);
+					break;
+			}
+		}
+
+		private void ButtonExport_Click(object sender, RoutedEventArgs e)
+		{
+			TextWriter writer = null;
+			try
+			{
+				var jsonCells = JsonConvert.SerializeObject(cells);
+				writer = new StreamWriter(@".\write.txt", false);
+				writer.Write(jsonCells);
+			}
+			finally
+			{
+				if (writer != null)
+					writer.Close();
+			}
+		}
+
+		private void ButtonImport_Click(object sender, RoutedEventArgs e)
+		{
+			TextReader reader = null;
+			try
+			{
+				reader = new StreamReader(@".\write.txt");
+				var fileContents = reader.ReadToEnd();
+				cells = JsonConvert.DeserializeObject<bool[,]>(fileContents);
+				sizeX = cells.GetLength(1);
+				sizeY = cells.GetLength(0);
+				emptyState();
+			
+				// logic.Dispose();
+				logic = new Logic.Logic(cells, sizeX, sizeY, MyCanvas, this);
+				logic.Initialize();
+			}
+			finally
+			{
+				if (reader != null)
+					reader.Close();
+			}
 		}
 	}
 }

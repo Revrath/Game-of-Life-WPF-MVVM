@@ -122,7 +122,6 @@ namespace GameOfLife.Logic
 			do
 			{
 				mw.Dispatcher.Invoke(mw.UpdateUI());
-				// mw.UpdateUI();
 				Thread.Sleep(delay);
 
 				if (cancelToken.IsCancellationRequested)
