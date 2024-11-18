@@ -14,7 +14,7 @@ using Canvas = System.Windows.Controls.Canvas;
 
 namespace GameOfLife.Logic
 {
-	internal class Logic
+	internal class Logic : IDisposable
 	{
 		static int sizeX;
 		static int sizeY;
@@ -26,6 +26,9 @@ namespace GameOfLife.Logic
 		private Canvas canvas;
 		private Task loop;
 		private MainWindow mw;
+		public CancellationTokenSource cancelToken = new CancellationTokenSource();
+		public int delay = 1000;
+		public bool isLoop = true;
 		public Logic(bool[,] cells, int x, int y, Canvas canvas, MainWindow mainWindow)
 		{
 			this.cells = cells;
@@ -39,16 +42,14 @@ namespace GameOfLife.Logic
 		{
 			if (aliveCount < 2)
 			{
-				// board.Dead(xCurrent, yCurrent);
 				SetCell(xCurrent, yCurrent, false);
 			}
 
 		}
 		private void Reproduction()
 		{
-			if (!IsAlive(xCurrent, yCurrent) && aliveCount == 3)
+			if (aliveCount == 3)
 			{
-				// board.Alive(xCurrent, yCurrent);
 				SetCell(xCurrent, yCurrent, true);
 			}
 		}
@@ -56,7 +57,6 @@ namespace GameOfLife.Logic
 		{
 			if (aliveCount > 3)
 			{
-				// board.Dead(xCurrent, yCurrent);
 				SetCell(xCurrent, yCurrent, false);
 			}
 		}
@@ -74,8 +74,6 @@ namespace GameOfLife.Logic
 				}
 			}
 			aliveCount = count;
-
-			//return x;
 		}
 
 		private bool OutOfBounds(int x, int y)
@@ -113,15 +111,23 @@ namespace GameOfLife.Logic
 						SetCell(j, i, true);
 				}
 			}
+
+			loop = new Task(Update);
+			loop.Start();
 		}
 
-		private void Update()
+		public void Update()
 		{
-			while (true)
+			do
 			{
 				mw.Dispatcher.Invoke(mw.UpdateUI());
 				mw.UpdateUI();
-				Thread.Sleep(2000);
+				Thread.Sleep(delay);
+
+				if (cancelToken.IsCancellationRequested)
+				{
+					return;
+				}
 
 				for (int i = 0; i < sizeY; i++)
 				{
@@ -135,14 +141,12 @@ namespace GameOfLife.Logic
 						Reproduction();
 					}
 				}
-			}
+			} while (isLoop);
 		}
-
-		public void Run()
+		
+		public void Dispose()
 		{
-			Initialize();
-			loop = new Task(Update);
-			loop.Start();
+			loop.Dispose();
 		}
 	}
 }

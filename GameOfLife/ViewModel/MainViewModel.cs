@@ -14,7 +14,7 @@ namespace GameOfLife.ViewModel
         public int SizeY { get; set; } = 100;
         public MainViewModel()
         {
-	        Cells = new bool[SizeY, SizeX];
+	        Cells = new bool[SizeY, SizeX]; 
 
         }
 	}

@@ -33,7 +33,7 @@ namespace GameOfLife
 			sizeY = _viewModel.SizeY;
 			cells = _viewModel.Cells;
 			logic = new Logic.Logic(cells, sizeX, sizeY, MyCanvas, this);
-			logic.Run();
+			logic.Initialize();
 		}
 
 
@@ -64,7 +64,7 @@ namespace GameOfLife
 			};
 		}
 
-		private void textBox_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
+		private void textBox__Leave(object sender, System.Windows.Controls.TextChangedEventArgs e)
 		{
 
 		}
@@ -76,6 +76,7 @@ namespace GameOfLife
 
 		private void emptyState()
 		{
+			logic.cancelToken.Cancel();
 			for (int i = 0; i < sizeY; i++)
 			{
 				for (int j = 0; j < sizeX; j++)
@@ -96,7 +97,23 @@ namespace GameOfLife
 			sizeY = Convert.ToInt32(TextSizeY.Text);
 			cells = new bool [sizeX, sizeY];
 			emptyState();
+			
+			// logic.Dispose();
 			logic = new Logic.Logic(cells, sizeX, sizeY, MyCanvas, this);
+			logic.Initialize();
+		}
+
+		private void ButtonLoop_Click(object sender, RoutedEventArgs e)
+		{
+			logic.isLoop = true;
+			logic.delay = Convert.ToInt32(TextDelay.Text);
+		}
+
+		private void ButtonStep_Click(object sender, RoutedEventArgs e)
+		{
+			logic.isLoop = false;
+			logic.delay = 0;
+			logic.Update();
 		}
 	}
 }
