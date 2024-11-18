@@ -5,14 +5,16 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GameOfLife"
         mc:Ignorable="d"
-        Title="MainWindow" Height="630" Width="1400">
+        Title="MainWindow" Height="630" Width="1400"
+        Background="darkgreen">
     <Window.Resources>
     </Window.Resources>
     <Grid Height="833" VerticalAlignment="Center">
+        
         <Canvas Name="MyCanvas" Width="500" Height="500" Background="DarkGray"/>
         <Label x:Name="Label" Content="PG Life" Margin="0,126,0,0" VerticalAlignment="Top" Width="84" RenderTransformOrigin="0.5,0.5" FontFamily="Comic Sans MS" FontSize="22" HorizontalAlignment="Center"/>
-        <TextBox x:Name="TextSizeX" HorizontalAlignment="Left" Margin="10,167,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"  RenderTransformOrigin="0.375,1.004"/>
-        <TextBox x:Name="TextSizeY" HorizontalAlignment="Left" Margin="156,167,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"  RenderTransformOrigin="0.375,1.004"/>
+        <TextBox x:Name="TextSizeX" HorizontalAlignment="Left" Margin="10,167,0,0" TextWrapping="Wrap" Text="100" VerticalAlignment="Top" Width="120"  RenderTransformOrigin="0.375,1.004"/>
+        <TextBox x:Name="TextSizeY" HorizontalAlignment="Left" Margin="156,167,0,0" TextWrapping="Wrap" Text="100" VerticalAlignment="Top" Width="120"  RenderTransformOrigin="0.375,1.004"/>
         <Label x:Name="Label1" Content="x" HorizontalAlignment="Left" Margin="135,163,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.105,-0.076" Width="16"/>
         <Button x:Name="ButtonNewSize" Content="Set new size" HorizontalAlignment="Left" Margin="300,166,0,0" VerticalAlignment="Top" Click="buttonNewSize_Click"/>
         <Button x:Name="ButtonInit" Content="Initialize" HorizontalAlignment="Left" Margin="10,212,0,0" VerticalAlignment="Top" RenderTransformOrigin="1.615,0.226" Click="buttonInit_Click"/>
@@ -34,8 +36,10 @@
             <Run Text="The Force shall free me"/>
             <Run Language="pl-pl" Text="."/>
         </TextBlock>
-        <Button x:Name="Button1X" Content="Zoom 1x" HorizontalAlignment="Left" Margin="10,319,0,0" VerticalAlignment="Top"/>
-        <Button x:Name="Button2X" Content="Zoom 2x" HorizontalAlignment="Left" Margin="86,319,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="labdel" Content="Zoom" HorizontalAlignment="Left" Margin="6,294,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="TextZoom" Text="1" HorizontalAlignment="Left" Margin="10,319,0,0" VerticalAlignment="Top" />
+        <!-- <Button x:Name="Button1X" Content="Zoom 1x" HorizontalAlignment="Left" Margin="10,319,0,0" VerticalAlignment="Top"/> -->
+        <Button x:Name="ButtonZoom" Content="Zoom" HorizontalAlignment="Left" Margin="86,319,0,0" VerticalAlignment="Top" Click="ButtonZoom_Click"/>
         <Button x:Name="ButtonMode" Content="Change mode" HorizontalAlignment="Left" Margin="10,364,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.555,0.828"/>
         <Label x:Name="label" Content="Size Y" HorizontalAlignment="Left" Margin="156,141,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.29,0.521"/>
         <Label x:Name="label_Copy" Content="Size X" HorizontalAlignment="Left" Margin="10,141,0,0" VerticalAlignment="Top" RenderTransformOrigin="-3.053,0.367"/>

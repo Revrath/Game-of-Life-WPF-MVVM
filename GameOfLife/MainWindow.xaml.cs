@@ -25,13 +25,16 @@ namespace GameOfLife
 		private int sizeY;
 		private bool[,] cells;
 		private Logic.Logic logic;
+		public int scale;
+		private bool isCircle = false;
 		public MainWindow()
 		{
 			InitializeComponent();
 			DataContext = _viewModel;
-			sizeX = _viewModel.SizeX;
-			sizeY = _viewModel.SizeY;
+			sizeX = Convert.ToInt32(TextSizeX.Text);
+			sizeY = Convert.ToInt32(TextSizeY.Text);
 			cells = _viewModel.Cells;
+			scale = Convert.ToInt32(TextZoom.Text);
 			logic = new Logic.Logic(cells, sizeX, sizeY, MyCanvas, this);
 			logic.Initialize();
 		}
@@ -42,22 +45,37 @@ namespace GameOfLife
 			return () =>
 			{
 				MyCanvas.Children.Clear();
-				double cellSize = MyCanvas.Height / sizeX;
-				for (int i = 0; i < sizeY; i++)
+				double cellSize = MyCanvas.Height / sizeX * scale;
+				for (int i = 0; i < sizeY / scale; i++)
 				{
-					for (int j = 0; j < sizeX; j++)
+					for (int j = 0; j < sizeX / scale; j++)
 					{
-						if (cells[i ,j])
+						if (cells[i, j])
 						{
-							var cell = new Rectangle
+							Shape cell;
+							if (isCircle)
 							{
-								Width = cellSize,
-								Height = cellSize,
-								Fill = Brushes.MidnightBlue
-							};			
+								cell = new Ellipse
+								{
+									Width = cellSize,
+									Height = cellSize,
+									Fill = Brushes.MidnightBlue
+								};
+							}
+							else
+							{
+								cell = new Rectangle
+								{
+									Width = cellSize,
+									Height = cellSize,
+									Fill = Brushes.MidnightBlue
+								};
+							}
+
 							Canvas.SetTop(cell, cellSize * i);
 							Canvas.SetLeft(cell, cellSize * j);
 							MyCanvas.Children.Add(cell);
+							
 						}
 					}
 				}
@@ -105,8 +123,10 @@ namespace GameOfLife
 
 		private void ButtonLoop_Click(object sender, RoutedEventArgs e)
 		{
-			logic.isLoop = true;
 			logic.delay = Convert.ToInt32(TextDelay.Text);
+			logic.isLoop = true;
+			logic.loop = new Task(logic.Update);
+			logic.loop.Start();
 		}
 
 		private void ButtonStep_Click(object sender, RoutedEventArgs e)
@@ -114,6 +134,12 @@ namespace GameOfLife
 			logic.isLoop = false;
 			logic.delay = 0;
 			logic.Update();
+		}
+		
+		private void ButtonZoom_Click(object sender, RoutedEventArgs e)
+		{
+			scale = Convert.ToInt32(TextZoom.Text);
+
 		}
 	}
 }

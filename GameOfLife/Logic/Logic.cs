@@ -24,11 +24,12 @@ namespace GameOfLife.Logic
 		private int xCurrent;
 		private int yCurrent;
 		private Canvas canvas;
-		private Task loop;
+		public Task loop;
 		private MainWindow mw;
 		public CancellationTokenSource cancelToken = new CancellationTokenSource();
 		public int delay = 1000;
 		public bool isLoop = true;
+		public Shape shape;
 		public Logic(bool[,] cells, int x, int y, Canvas canvas, MainWindow mainWindow)
 		{
 			this.cells = cells;
@@ -121,7 +122,7 @@ namespace GameOfLife.Logic
 			do
 			{
 				mw.Dispatcher.Invoke(mw.UpdateUI());
-				mw.UpdateUI();
+				// mw.UpdateUI();
 				Thread.Sleep(delay);
 
 				if (cancelToken.IsCancellationRequested)
