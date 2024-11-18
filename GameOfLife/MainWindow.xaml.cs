@@ -94,7 +94,7 @@ namespace GameOfLife
 
 		private void buttonInit_Click(object sender, RoutedEventArgs e)
 		{
-			logic.Initialize();
+			buttonNewSize_Click(sender, e);
 		}
 
 		private void emptyState()
@@ -147,7 +147,6 @@ namespace GameOfLife
 		private void ButtonZoom_Click(object sender, RoutedEventArgs e)
 		{
 			scale = Convert.ToInt32(TextZoom.Text);
-
 		}
 
 		private void ButtonMode_Click(object sender, RoutedEventArgs e)
@@ -197,14 +196,15 @@ namespace GameOfLife
 			{
 				reader = new StreamReader(@".\write.txt");
 				var fileContents = reader.ReadToEnd();
+				emptyState();
+
 				cells = JsonConvert.DeserializeObject<bool[,]>(fileContents);
 				sizeX = cells.GetLength(1);
 				sizeY = cells.GetLength(0);
-				emptyState();
 			
-				// logic.Dispose();
 				logic = new Logic.Logic(cells, sizeX, sizeY, MyCanvas, this);
-				logic.Initialize();
+				logic.loop = new Task(logic.Update);
+				logic.loop.Start();
 			}
 			finally
 			{
