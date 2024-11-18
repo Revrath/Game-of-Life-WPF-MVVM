@@ -55,13 +55,15 @@
         <TextBox x:Name="TextZoom" Text="1" HorizontalAlignment="Left" Margin="10,319,0,0" VerticalAlignment="Top" />
         <!-- <Button x:Name="Button1X" Content="Zoom 1x" HorizontalAlignment="Left" Margin="10,319,0,0" VerticalAlignment="Top"/> -->
         <Button x:Name="ButtonZoom" Content="Zoom" HorizontalAlignment="Left" Margin="86,319,0,0" VerticalAlignment="Top" Click="ButtonZoom_Click"/>
-        <Button x:Name="ButtonMode" Content="Change mode" HorizontalAlignment="Left" Margin="10,364,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.555,0.828" Click="ButtonMode_Click"/>
+        <Button x:Name="ButtonMode" Content="Shape" HorizontalAlignment="Left" Margin="10,364,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.555,0.828" Click="ButtonMode_Click"/>
         <Label x:Name="label" Content="Size Y" HorizontalAlignment="Left" Margin="156,141,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.29,0.521"/>
         <Label x:Name="label_Copy" Content="Size X" HorizontalAlignment="Left" Margin="10,141,0,0" VerticalAlignment="Top" RenderTransformOrigin="-3.053,0.367"/>
         <Label x:Name="label1" Content="Delay in ms" HorizontalAlignment="Left" Margin="159,235,0,0" VerticalAlignment="Top"/>
-        <Button x:Name="ButtonColor" Content="Color" HorizontalAlignment="Left" Margin="196,364,0,0" VerticalAlignment="Top" Click="ButtonColor_Click"/>
+        <Button x:Name="ButtonColor" Content="Color" HorizontalAlignment="Left" Margin="86,364,0,0" VerticalAlignment="Top" Click="ButtonColor_Click"/>
         <Button x:Name="ButtonExport" Content="Export" HorizontalAlignment="Left" Margin="10,425,0,0" VerticalAlignment="Top" Click="ButtonExport_Click"/>
-        <Button x:Name="ButtonImport" Content="Import" HorizontalAlignment="Left" Margin="192,425,0,0" VerticalAlignment="Top" Click="ButtonImport_Click"/>
+        <Button x:Name="ButtonImport" Content="Import" HorizontalAlignment="Left" Margin="81,425,0,0" VerticalAlignment="Top" Click="ButtonImport_Click"/>
+        <Button x:Name="ButtonFrog" Content="Frog" HorizontalAlignment="Left" Margin="10,480,0,0" VerticalAlignment="Top" Click="ButtonFrog_Click"/>
+        <Button x:Name="ButtonGlider" Content="Glider" HorizontalAlignment="Left" Margin="83,480,0,0" VerticalAlignment="Top" RenderTransformOrigin="1.406,0.527" Click="ButtonGlider_Click"/>
     </Grid>
 
 </Window>

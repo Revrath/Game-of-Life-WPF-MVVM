@@ -223,6 +223,20 @@ namespace GameOfLife
 			int y = (int)(point.Y/cellSizeHeight);
 			logic.SetCell(x,y, true);
 			Dispatcher.Invoke(UpdateUI());
+		}	
+
+		private void ButtonFrog_Click(object sender, RoutedEventArgs e)
+		{
+			emptyState();
+			logic = new Logic.Logic(cells, sizeX, sizeY, MyCanvas, this);
+			logic.Frog();
+		}
+
+		private void ButtonGlider_Click(object sender, RoutedEventArgs e)
+		{
+			emptyState();
+			logic = new Logic.Logic(cells, sizeX, sizeY, MyCanvas, this);
+			logic.Glider();
 		}
 	}
 }

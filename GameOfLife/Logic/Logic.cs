@@ -20,6 +20,7 @@ namespace GameOfLife.Logic
 		static int sizeY;
 		private Board board = new Board(sizeX, sizeY);
 		private volatile bool[,] cells;
+		private volatile bool[,] copy;
 		private int aliveCount;
 		private int xCurrent;
 		private int yCurrent;
@@ -40,6 +41,7 @@ namespace GameOfLife.Logic
 			sizeY = y;
 			this.canvas = canvas;
 			mw = mainWindow;
+			copy = new bool[sizeY, sizeX];
 		}
 
 		private void Underpopulation()
@@ -91,7 +93,7 @@ namespace GameOfLife.Logic
 		private bool GetCell(int x, int y)
 		{
 			// return cells[x + y * sizeX];
-			return cells[y, x];
+			return copy[y, x];
 		}
 		public void SetCell(int x, int y, bool val)
 		{
@@ -112,10 +114,33 @@ namespace GameOfLife.Logic
 			{
 				for (int j = 0; j < sizeX; j++)
 				{
-					if (random.Next(1, 9) == 4)
+					if (random.Next(1, 5) == 4)
 						SetCell(j, i, true);
 				}
 			}
+			loop = new Task(Update);
+			loop.Start();
+		}
+
+		public void Glider()
+		{
+			SetCell(3,1,true);
+			SetCell(1,2,true);
+			SetCell(3,2,true);
+			SetCell(2,3,true);
+			SetCell(3,3,true);
+			loop = new Task(Update);
+			loop.Start();
+		}
+
+		public void Frog()
+		{
+			SetCell(1,0,true);
+			SetCell(1,1,true);
+			SetCell(1,2,true);
+			SetCell(2,1,true);
+			SetCell(2,2,true);
+			SetCell(2,3,true);
 			loop = new Task(Update);
 			loop.Start();
 		}
@@ -128,11 +153,21 @@ namespace GameOfLife.Logic
 				{
 					return;
 				}
+
+				for (int i = 0; i < sizeY; i++)
+				{
+					for (int j = 0; j < sizeX; j++)
+					{
+						copy[i, j] = cells[i, j];
+					}
+				}
+
 				for (int i = 0; i < sizeY; i++)
 				{
 					yCurrent = i;
 					for (int j = 0; j < sizeX; j++)
 					{
+						copy[i,j] = cells[i,j];
 						xCurrent = j;
 						AliveNeighboursCount(j, i);
 						Underpopulation();
