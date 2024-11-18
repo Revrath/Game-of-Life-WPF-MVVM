@@ -19,7 +19,7 @@ namespace GameOfLife.Logic
 		static int sizeX;
 		static int sizeY;
 		private Board board = new Board(sizeX, sizeY);
-		private bool[,] cells;
+		private volatile bool[,] cells;
 		private int aliveCount;
 		private int xCurrent;
 		private int yCurrent;
@@ -29,6 +29,9 @@ namespace GameOfLife.Logic
 		public CancellationTokenSource cancelToken = new CancellationTokenSource();
 		public int delay = 1000;
 		public bool isLoop = true;
+		public int turn = 0;
+		public int totalAliveCount = 0;
+		public int newborns = 0;
 		public Shape shape;
 		public Logic(bool[,] cells, int x, int y, Canvas canvas, MainWindow mainWindow)
 		{
@@ -52,6 +55,7 @@ namespace GameOfLife.Logic
 			if (aliveCount == 3)
 			{
 				SetCell(xCurrent, yCurrent, true);
+				newborns++;
 			}
 		}
 		private void Overpopulation()
@@ -89,7 +93,7 @@ namespace GameOfLife.Logic
 			// return cells[x + y * sizeX];
 			return cells[y, x];
 		}
-		private void SetCell(int x, int y, bool val)
+		public void SetCell(int x, int y, bool val)
 		{
 			cells[y, x] = val;
 		}
@@ -108,11 +112,10 @@ namespace GameOfLife.Logic
 			{
 				for (int j = 0; j < sizeX; j++)
 				{
-					if (random.Next(1, 5) == 4)
+					if (random.Next(1, 9) == 4)
 						SetCell(j, i, true);
 				}
 			}
-
 			loop = new Task(Update);
 			loop.Start();
 		}
@@ -121,14 +124,10 @@ namespace GameOfLife.Logic
 		{
 			do
 			{
-				mw.Dispatcher.Invoke(mw.UpdateUI());
-				Thread.Sleep(delay);
-
 				if (cancelToken.IsCancellationRequested)
 				{
 					return;
 				}
-
 				for (int i = 0; i < sizeY; i++)
 				{
 					yCurrent = i;
@@ -139,8 +138,16 @@ namespace GameOfLife.Logic
 						Underpopulation();
 						Overpopulation();
 						Reproduction();
+						if(IsAlive(j,i))
+							totalAliveCount++;
 					}
 				}
+				mw.Dispatcher.Invoke(mw.UpdateUI());
+				Thread.Sleep(delay);
+
+				newborns = 0;
+				totalAliveCount = 0;
+				turn++;
 			} while (isLoop);
 		}
 		

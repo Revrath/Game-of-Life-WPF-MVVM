@@ -7,13 +7,40 @@
         xmlns:controls="clr-namespace:Microsoft.UI.Xaml.Controls;assembly=Uno.UI"
         mc:Ignorable="d"
         Title="MainWindow" Height="630" Width="1400"
-        Background="darkred">
+        Background="RoyalBlue">
     <Window.Resources>
+        <Style TargetType="Label">
+            <Setter Property="FontFamily" Value="Comic Sans MS"/>
+            <Setter Property="FontSize" Value="14"/>
+        </Style>
+        
+        <Style TargetType="Button">
+            <Setter Property="Background" Value="Gold"></Setter>
+        </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="Background" Value="Gold"></Setter>
+        </Style>
     </Window.Resources>
-    <Grid Height="833" VerticalAlignment="Center">
-
-        <Canvas Name="MyCanvas" Width="500" Height="500" Background="DarkGray"/>
-        <Label x:Name="Label" Content="PG Life" Margin="0,126,0,0" VerticalAlignment="Top" Width="84" RenderTransformOrigin="0.5,0.5" FontFamily="Comic Sans MS" FontSize="22" HorizontalAlignment="Center"/>
+    
+    <Grid Height="625" VerticalAlignment="Center">
+        <ScrollViewer VerticalScrollBarVisibility="Auto" >
+            <TextBlock x:Name="TextStats" HorizontalAlignment="Left" Margin="955,0,0,0" TextWrapping="Wrap" VerticalAlignment="Center" Width="435">
+                <Run Text="Peace is a lie. There is only Passion."/>
+                <LineBreak/>
+                <Run Text="Through Passion, I gain Strength."/>
+                <LineBreak/>
+                <Run Text="Through Strength, I gain Power."/>
+                <LineBreak/>
+                <Run Text="Through Power, I gain Victory."/>
+                <LineBreak/>
+                <Run Text="Through Victory my chains are Broken."/>
+                <LineBreak/>
+                <Run Text="The Force shall free me"/>
+                <Run Language="pl-pl" Text="."/>
+            </TextBlock>
+        </ScrollViewer>
+        <Canvas Name="MyCanvas" Width="500" Height="500" Background="SeaGreen" MouseLeftButtonDown="AddCellWithMouse" />
+        <Label x:Name="Label" Content="PG Life" Margin="0,17,0,0" VerticalAlignment="Top" Width="84" RenderTransformOrigin="0.532,-1.045" FontFamily="Comic Sans MS" FontSize="22" HorizontalAlignment="Center"/>
         <TextBox x:Name="TextSizeX" HorizontalAlignment="Left" Margin="10,167,0,0" TextWrapping="Wrap" Text="100" VerticalAlignment="Top" Width="120"  RenderTransformOrigin="0.375,1.004"/>
         <TextBox x:Name="TextSizeY" HorizontalAlignment="Left" Margin="156,167,0,0" TextWrapping="Wrap" Text="100" VerticalAlignment="Top" Width="120"  RenderTransformOrigin="0.375,1.004"/>
         <Label x:Name="Label1" Content="x" HorizontalAlignment="Left" Margin="135,163,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.105,-0.076" Width="16"/>
@@ -23,20 +50,7 @@
         <Button x:Name="ButtonStep" Content="One step" HorizontalAlignment="Left" Margin="10,266,0,0" VerticalAlignment="Top" Click="ButtonStep_Click"/>
         <Button x:Name="ButtonLoop" Content="Loop" HorizontalAlignment="Left" Margin="90,266,0,0" VerticalAlignment="Top" RenderTransformOrigin="2.499,0.527" Click="ButtonLoop_Click"/>
         <TextBox x:Name="TextDelay" HorizontalAlignment="Left" Margin="156,266,0,0" Text="1000" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"  RenderTransformOrigin="0.375,1.004"/>
-        <TextBlock x:Name="TextBlock" HorizontalAlignment="Left" Margin="955,0,0,0" TextWrapping="Wrap" VerticalAlignment="Center" Height="499" Width="435">
-            <Run Text="Peace is a lie. There is only Passion."/>
-            <LineBreak/>
-            <Run Text="Through Passion, I gain Strength."/>
-            <LineBreak/>
-            <Run Text="Through Strength, I gain Power."/>
-            <LineBreak/>
-            <Run Text="Through Power, I gain Victory."/>
-            <LineBreak/>
-            <Run Text="Through Victory my chains are Broken."/>
-            <LineBreak/>
-            <Run Text="The Force shall free me"/>
-            <Run Language="pl-pl" Text="."/>
-        </TextBlock>
+
         <Label x:Name="labdel" Content="Zoom" HorizontalAlignment="Left" Margin="6,294,0,0" VerticalAlignment="Top"/>
         <TextBox x:Name="TextZoom" Text="1" HorizontalAlignment="Left" Margin="10,319,0,0" VerticalAlignment="Top" />
         <!-- <Button x:Name="Button1X" Content="Zoom 1x" HorizontalAlignment="Left" Margin="10,319,0,0" VerticalAlignment="Top"/> -->

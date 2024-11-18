@@ -25,11 +25,11 @@ namespace GameOfLife
 		private MainViewModel _viewModel = new MainViewModel();
 		private int sizeX;
 		private int sizeY;
-		private bool[,] cells;
+		private volatile bool[,] cells;
 		private Logic.Logic logic;
 		public int scale;
 		private bool isCircle = false;
-		private Brush color = new SolidColorBrush(Colors.IndianRed);
+		private Brush color = new SolidColorBrush(Colors.Black);
 		private int colorIndex = 0;
 		public MainWindow()
 		{
@@ -43,11 +43,16 @@ namespace GameOfLife
 			logic.Initialize();
 		}
 
-
+		private void UpdateStats()
+		{
+			TextStats.Text += $"turn {logic.turn}, {logic.newborns} new cells, {logic.totalAliveCount} alive\n";
+		}
+		
 		public Action UpdateUI()
 		{
 			return () =>
 			{
+				UpdateStats();
 				MyCanvas.Children.Clear();
 				double cellSizeHeight = MyCanvas.Height / sizeY * scale;
 				double cellSizeWidth = MyCanvas.Width / sizeX * scale;
@@ -81,7 +86,6 @@ namespace GameOfLife
 							Canvas.SetTop(cell, cellSizeHeight * i);
 							Canvas.SetLeft(cell, cellSizeWidth * j);
 							MyCanvas.Children.Add(cell);
-							
 						}
 					}
 				}
@@ -125,9 +129,12 @@ namespace GameOfLife
 		private void ButtonLoop_Click(object sender, RoutedEventArgs e)
 		{
 			logic.delay = Convert.ToInt32(TextDelay.Text);
-			logic.isLoop = true;
-			logic.loop = new Task(logic.Update);
-			logic.loop.Start();
+			if (logic.isLoop == false)
+			{
+				logic.isLoop = true;
+				logic.loop = new Task(logic.Update);
+				logic.loop.Start();	
+			}
 		}
 
 		private void ButtonStep_Click(object sender, RoutedEventArgs e)
@@ -156,13 +163,13 @@ namespace GameOfLife
 			switch (colorIndex)
 			{
 				case 0:
-					color = new SolidColorBrush(Colors.IndianRed);
+					color = new SolidColorBrush(Colors.Black);
 					break;
 				case 1:
-					color = new SolidColorBrush(Colors.GreenYellow);
+					color = new SolidColorBrush(Colors.Navy);
 					break;
 				case 2:
-					color = new SolidColorBrush(Colors.MediumAquamarine);
+					color = new SolidColorBrush(Colors.SaddleBrown);
 					break;
 			}
 		}
@@ -204,6 +211,18 @@ namespace GameOfLife
 				if (reader != null)
 					reader.Close();
 			}
+		}
+
+		private void AddCellWithMouse(object sender, MouseButtonEventArgs e)
+		{
+			var point = e.GetPosition(MyCanvas);
+			
+			double cellSizeHeight = MyCanvas.Height / sizeY * scale;
+			double cellSizeWidth = MyCanvas.Width / sizeX * scale;
+			int x = (int)(point.X/cellSizeWidth);
+			int y = (int)(point.Y/cellSizeHeight);
+			logic.SetCell(x,y, true);
+			Dispatcher.Invoke(UpdateUI());
 		}
 	}
 }
