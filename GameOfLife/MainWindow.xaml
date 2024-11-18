@@ -1,0 +1,41 @@
+﻿<Window x:Class="GameOfLife.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GameOfLife"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="630" Width="1400">
+    <Window.Resources>
+    </Window.Resources>
+    <Grid Height="833" VerticalAlignment="Center">
+        <Canvas Name="MyCanvas" Width="500" Height="500" Background="DarkGray"/>
+        <Label x:Name="label" Content="PG Life" Margin="0,126,0,0" VerticalAlignment="Top" Width="84" RenderTransformOrigin="0.5,0.5" FontFamily="Comic Sans MS" FontSize="22" HorizontalAlignment="Center"/>
+        <TextBox x:Name="textSizeX" HorizontalAlignment="Left" Margin="10,167,0,0" TextWrapping="Wrap" Text="Size X" VerticalAlignment="Top" Width="120" TextChanged="textBox_TextChanged" RenderTransformOrigin="0.375,1.004"/>
+        <TextBox x:Name="textSizeY" HorizontalAlignment="Left" Margin="156,167,0,0" TextWrapping="Wrap" Text="Size Y" VerticalAlignment="Top" Width="120" TextChanged="textBox_TextChanged" RenderTransformOrigin="0.375,1.004"/>
+        <Label x:Name="label1" Content="x" HorizontalAlignment="Left" Margin="135,163,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.105,-0.076" Width="16"/>
+        <Button x:Name="buttonNewSize" Content="Set new size" HorizontalAlignment="Left" Margin="300,166,0,0" VerticalAlignment="Top"/>
+        <Button x:Name="buttonInit" Content="Initialize" HorizontalAlignment="Left" Margin="10,212,0,0" VerticalAlignment="Top" RenderTransformOrigin="1.615,0.226" Click="buttonInit_Click"/>
+        <Button x:Name="buttonClear" Content="Clear" HorizontalAlignment="Left" Margin="90,212,0,0" VerticalAlignment="Top" RenderTransformOrigin="1.615,0.226" Click="buttonClear_Click_1"/>
+        <Button x:Name="buttonStep" Content="One step" HorizontalAlignment="Left" Margin="10,266,0,0" VerticalAlignment="Top"/>
+        <Button x:Name="buttonLoop" Content="Loop" HorizontalAlignment="Left" Margin="90,266,0,0" VerticalAlignment="Top" RenderTransformOrigin="2.499,0.527"/>
+        <TextBox x:Name="textDelay" HorizontalAlignment="Left" Margin="156,266,0,0" TextWrapping="Wrap" Text="Delay in ms" VerticalAlignment="Top" Width="120" TextChanged="textBox_TextChanged" RenderTransformOrigin="0.375,1.004"/>
+        <TextBlock x:Name="textBlock" HorizontalAlignment="Left" Margin="955,0,0,0" TextWrapping="Wrap" VerticalAlignment="Center" Height="499" Width="435">
+            <Run Text="Peace is a lie. There is only Passion."/>
+            <LineBreak/>
+            <Run Text="Through Passion, I gain Strength."/>
+            <LineBreak/>
+            <Run Text="Through Strength, I gain Power."/>
+            <LineBreak/>
+            <Run Text="Through Power, I gain Victory."/>
+            <LineBreak/>
+            <Run Text="Through Victory my chains are Broken."/>
+            <LineBreak/>
+            <Run Text="The Force shall free me"/>
+            <Run Language="pl-pl" Text="."/>
+        </TextBlock>
+        <Button x:Name="button1x" Content="Zoom 1x" HorizontalAlignment="Left" Margin="10,319,0,0" VerticalAlignment="Top"/>
+        <Button x:Name="button2x" Content="Zoom 2x" HorizontalAlignment="Left" Margin="86,319,0,0" VerticalAlignment="Top"/>
+        <Button x:Name="buttonMode" Content="Change mode" HorizontalAlignment="Left" Margin="10,364,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.555,0.828"/>
+    </Grid>
+</Window>
