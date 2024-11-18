@@ -19,14 +19,14 @@ namespace GameOfLife.Logic
 		static int sizeX;
 		static int sizeY;
 		private Board board = new Board(sizeX, sizeY);
-		private ObservableCollection<bool> cells = new ObservableCollection<bool>();
+		private bool[,] cells;
 		private int aliveCount;
 		private int xCurrent;
 		private int yCurrent;
 		private Canvas canvas;
 		private Task loop;
 		private MainWindow mw;
-		public Logic(ObservableCollection<bool> cells, int x, int y, Canvas canvas, MainWindow mainWindow)
+		public Logic(bool[,] cells, int x, int y, Canvas canvas, MainWindow mainWindow)
 		{
 			this.cells = cells;
 			sizeX = x;
@@ -87,11 +87,12 @@ namespace GameOfLife.Logic
 
 		private bool GetCell(int x, int y)
 		{
-			return cells[x + y * sizeX];
+			// return cells[x + y * sizeX];
+			return cells[y, x];
 		}
 		private void SetCell(int x, int y, bool val)
 		{
-			cells[x + y * sizeX] = val;
+			cells[y, x] = val;
 		}
 
 		private bool IsAlive(int x, int y)
@@ -103,7 +104,7 @@ namespace GameOfLife.Logic
 
 		public void Initialize()
 		{
-			Random random = new Random(451);
+			Random random = new Random();
 			for (int i = 0; i < sizeY; i++)
 			{
 				for (int j = 0; j < sizeX; j++)
@@ -120,7 +121,7 @@ namespace GameOfLife.Logic
 			{
 				mw.Dispatcher.Invoke(mw.UpdateUI());
 				mw.UpdateUI();
-				Thread.Sleep(1000);
+				Thread.Sleep(2000);
 
 				for (int i = 0; i < sizeY; i++)
 				{

@@ -23,7 +23,7 @@ namespace GameOfLife
 		private MainViewModel _viewModel = new MainViewModel();
 		private int sizeX;
 		private int sizeY;
-		private ObservableCollection<bool> cells = new ObservableCollection<bool>();
+		private bool[,] cells;
 		private Logic.Logic logic;
 		public MainWindow()
 		{
@@ -47,7 +47,7 @@ namespace GameOfLife
 				{
 					for (int j = 0; j < sizeX; j++)
 					{
-						if (cells[i * sizeX + j])
+						if (cells[i ,j])
 						{
 							var cell = new Rectangle
 							{
@@ -74,13 +74,29 @@ namespace GameOfLife
 			logic.Initialize();
 		}
 
-		private void buttonClear_Click_1(object sender, RoutedEventArgs e)
+		private void emptyState()
 		{
-			foreach (var cell in cells)
+			for (int i = 0; i < sizeY; i++)
 			{
-				cell = false;
+				for (int j = 0; j < sizeX; j++)
+				{
+					cells[j, i] = false;
+				}
 			}
 			MyCanvas.Children.Clear();
+		}
+		private void buttonClear_Click_1(object sender, RoutedEventArgs e)
+		{
+			emptyState();
+		}
+
+		private void buttonNewSize_Click(object sender, RoutedEventArgs e)
+		{
+			sizeX = Convert.ToInt32(TextSizeX.Text);
+			sizeY = Convert.ToInt32(TextSizeY.Text);
+			cells = new bool [sizeX, sizeY];
+			emptyState();
+			logic = new Logic.Logic(cells, sizeX, sizeY, MyCanvas, this);
 		}
 	}
 }
